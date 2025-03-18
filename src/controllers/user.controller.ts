@@ -105,7 +105,32 @@ export async function UserRegister(req: Request, res: Response) {
 
 export async function GetProfile(req: Request, res: Response) {
     try {
-
+        const domain = req.query.domain;
+        if (!domain) {
+            res.json({
+                success: false,
+                message: "Domain is required"
+            });
+            return
+        }
+        const profile = await prisma.user.findUnique({
+            where: {
+                domain: domain.toString()
+            },
+            include: {
+                experience: true,
+                skills: true,
+                socialLink: true,
+                projects: true,
+                style: true
+            }
+        })
+        res.json({
+            success: true,
+            message: "Profile fetched successfully",
+            data: profile
+        });
+        return
     } catch (error: any) {
         res.json({
             success: false,
@@ -118,6 +143,8 @@ export async function GetProfile(req: Request, res: Response) {
 
 export async function UpdateProfile(req: Request, res: Response) {
     try {
+        const userId = req.userId
+        const body = req.body
 
     } catch (error: any) {
         res.json({
@@ -131,7 +158,16 @@ export async function UpdateProfile(req: Request, res: Response) {
 
 export async function DeleteProfile(req: Request, res: Response) {
     try {
-
+        const userId = req.userId
+        await prisma.user.delete({
+            where: {
+                id: userId
+            }
+        })
+        res.json({
+            success: true,
+            message: "Account deleted"
+        })
     } catch (error: any) {
         res.json({
             success: false,
