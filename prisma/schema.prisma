@@ -12,3 +12,73 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+model user {
+  id       String   @id @default(cuid())
+  domain   String  @unique
+  email    String  @unique
+  password String
+  bio String?
+  socialLinkId String? @unique
+  socialLink SocialLinks?
+  styleId Int @unique @default(0)
+  style style @relation(fields: [styleId], references: [id])
+  skills skills[]
+  projects Projects[]
+  experience experience[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt 
+}
+
+model Projects {
+  id String @id @default(cuid())
+  index Int 
+  title String
+  description String
+  link String
+  user user @relation(fields: [userId], references: [id])
+  userId String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  @@unique([index,userId])
+}
+
+model experience {
+  id String @id @default(cuid())
+  index Int
+  title String
+  company String
+  location String
+  startDate DateTime
+  endDate DateTime?
+  description String
+  user user @relation(fields: [userId], references: [id])
+  userId String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  @@unique([index,userId])
+}
+
+model skills {
+  id String @id @default(cuid())
+  name String 
+  userId  String 
+  user user @relation(fields: [userId], references: [id])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  @@unique([name, userId])
+}
+model style {
+  id Int @id @default(autoincrement())
+  name String @unique
+  user user[]
+}
+
+model SocialLinks {
+  id        String  @id @default(cuid())
+  github    String?
+  linkedin  String?
+  twitter   String?
+  userId  String @unique
+  user user @relation(fields: [userId], references: [id])
+}
