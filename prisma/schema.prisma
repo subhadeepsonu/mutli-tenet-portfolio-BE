@@ -35,7 +35,9 @@ model Projects {
   index Int 
   title String
   description String
-  link String
+  link String?
+  github String?
+  technologies String[]
   user user @relation(fields: [userId], references: [id])
   userId String
   createdAt DateTime @default(now())
