@@ -4,8 +4,9 @@ export const createExperienceValidator = z.object({
     title: z.string().nonempty(),
     company: z.string().nonempty(),
     location: z.string().nonempty(),
-    startDate: z.string().nonempty(),
-    endDate: z.string().optional(),
+    position: z.string().nonempty(),
+    startDate: z.date(),
+    endDate: z.date().optional(),
     description: z.string().nonempty(),
 })
 
@@ -13,8 +14,9 @@ export const updateExperienceValidator = z.object({
     title: z.string().nonempty(),
     company: z.string().nonempty(),
     location: z.string().nonempty(),
-    startDate: z.string().nonempty(),
-    endDate: z.string().optional(),
+    position: z.string().nonempty(),
+    startDate: z.date(),
+    endDate: z.date().optional(),
     description: z.string().nonempty(),
     id: z.string().nonempty(),
 })

@@ -1,5 +1,5 @@
 import z from "zod"
-export const socialLinksValidator = z.object({
+export const createSocialLinksValidator = z.object({
     linkedin: z.string().url().optional(),
     github: z.string().url().optional(),
     twitter: z.string().url().optional()

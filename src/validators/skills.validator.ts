@@ -4,5 +4,4 @@ export const createSkillValidator = z.object({
 })
 export const updateSkillValidator = z.object({
     name: z.string().nonempty(),
-    id: z.string().nonempty(),
 })

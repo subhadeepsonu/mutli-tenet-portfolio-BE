@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { userLoginValidator, userRegisterValidator } from '../validators/user.validator';
+import { userLoginValidator, userRegisterValidator, userUpdateValidator } from '../validators/user.validator';
 import prisma from "../db"
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
@@ -145,14 +145,34 @@ export async function UpdateProfile(req: Request, res: Response) {
     try {
         const userId = req.userId
         const body = req.body
-
+        const check = userUpdateValidator.safeParse(body);
+        if (!check.success) {
+            res.json({
+                success: false,
+                message: check.error
+            });
+            return
+        }
+        await prisma.user.update({
+            where: {
+                id: userId
+            },
+            data: {
+                bio: check.data.bio,
+                domain: check.data.domain
+            }
+        })
+        res.json({
+            success: true,
+            message: "Profile updated successfully"
+        });
+        return
     } catch (error: any) {
         res.json({
             success: false,
             message: error.message
         });
         return
-
     }
 }
 
@@ -168,12 +188,12 @@ export async function DeleteProfile(req: Request, res: Response) {
             success: true,
             message: "Account deleted"
         })
+        return
     } catch (error: any) {
         res.json({
             success: false,
             message: error.message
         });
         return
-
     }
 }
