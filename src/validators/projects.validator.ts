@@ -3,7 +3,7 @@ export const createProjectValidator = z.object({
     title: z.string().nonempty(),
     description: z.string().nonempty(),
     github: z.string().optional(),
-    website: z.string().optional(),
+    link: z.string().optional(),
     technologies: z.array(z.string().nonempty()),
 })
 

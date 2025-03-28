@@ -77,6 +77,19 @@ export async function UserRegister(req: Request, res: Response) {
             });
             return
         }
+        const checkDomain = await prisma.user.findFirst({
+            where: {
+                domain: check.data.domain
+            }
+        });
+        if (checkDomain) {
+            res.json({
+                success: false,
+                message: "doamin is taken"
+            });
+            return
+        }
+
         const salt = await bcrypt.genSalt(10);
         const hashedPassword = await bcrypt.hash(check.data.password, salt);
         const user = await prisma.user.create({
@@ -84,7 +97,6 @@ export async function UserRegister(req: Request, res: Response) {
                 email: check.data.email,
                 password: hashedPassword,
                 domain: check.data.domain
-
             }
         })
         const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET!);
@@ -95,7 +107,7 @@ export async function UserRegister(req: Request, res: Response) {
         });
         return
     } catch (error) {
-        res.json({
+        res.status(400).json({
             success: false,
             message: error
         });
@@ -122,7 +134,7 @@ export async function GetProfile(req: Request, res: Response) {
                 skills: true,
                 socialLink: true,
                 projects: true,
-                style: true
+                style: true,
             }
         })
         res.json({
@@ -143,8 +155,9 @@ export async function GetProfile(req: Request, res: Response) {
 
 export async function UpdateProfile(req: Request, res: Response) {
     try {
-        const userId = req.userId
+        const userId = req.userId!
         const body = req.body
+        console.log(userId)
         const check = userUpdateValidator.safeParse(body);
         if (!check.success) {
             res.json({
@@ -168,6 +181,7 @@ export async function UpdateProfile(req: Request, res: Response) {
         });
         return
     } catch (error: any) {
+        console.log(error)
         res.json({
             success: false,
             message: error.message

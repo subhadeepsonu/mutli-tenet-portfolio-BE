@@ -51,9 +51,9 @@ export async function CreateProjects(req: Request, res: Response) {
             message: "project created"
         })
         return
-    } catch (error) {
+    } catch (error: any) {
         res.status(500).json({
-            message: "Internal Server Error"
+            message: error.message
         })
         return
     }
@@ -61,7 +61,7 @@ export async function CreateProjects(req: Request, res: Response) {
 
 export async function UpdateProjects(req: Request, res: Response) {
     try {
-        const userId = req.userId!;
+
         const body = req.body;
         const id = req.params.id;
         if (!id) {

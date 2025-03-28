@@ -18,7 +18,7 @@ export default function middleware(req: Request, res: Response, next: NextFuncti
                 })
                 return;
             }
-            req.userId = (decoded as JwtPayload).userId;
+            req.userId = (decoded as JwtPayload).id;
             next()
         } else {
             res.status(403).json({

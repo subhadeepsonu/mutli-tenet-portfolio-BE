@@ -4,9 +4,10 @@ import { SocialLinksRouter } from "./routes/socailLinks.route";
 import { SkillsRouter } from "./routes/skills.route";
 import { ProjectsRouter } from "./routes/projects.route";
 import { ExperienceRouter } from "./routes/experience.route";
-
+import cors from "cors"
 const app = express();
-
+app.use(express.json())
+app.use(cors())
 app.get("/", (req, res) => {
     res.json({
         message: "Hello World"

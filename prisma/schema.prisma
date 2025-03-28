@@ -21,8 +21,8 @@ model user {
   bio String?
   socialLinkId String? @unique
   socialLink SocialLinks?
-  styleId Int @unique @default(0)
-  style style @relation(fields: [styleId], references: [id])
+  styleId Int? @unique 
+  style style? @relation(fields: [styleId], references: [id])
   skills skills[]
   projects Projects[]
   experience experience[]
