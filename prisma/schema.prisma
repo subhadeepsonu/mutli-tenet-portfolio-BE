@@ -32,7 +32,7 @@ model user {
 
 model Projects {
   id String @id @default(cuid())
-  index Int 
+  index Int @default(autoincrement())
   title String
   description String
   link String?

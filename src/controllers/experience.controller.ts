@@ -26,7 +26,7 @@ export async function CreateExperience(req: Request, res: Response) {
         if (!check.success) {
             res.status(400).json({
                 success: false,
-                message: check.error
+                message: check.error.message
             });
             return
         }
@@ -73,10 +73,11 @@ export async function UpdateExperience(req: Request, res: Response) {
             return
         }
         const check = updateExperienceValidator.safeParse(body)
+        console.error(check.error)
         if (!check.success) {
             res.status(400).json({
                 success: false,
-                message: check.error
+                message: check.error.message
             });
             return
         }

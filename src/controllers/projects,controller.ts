@@ -30,7 +30,7 @@ export async function CreateProjects(req: Request, res: Response) {
         if (!check.success) {
             res.status(400).json({
                 success: false,
-                message: check.error
+                message: check.error.message
             });
             return
         }
@@ -42,8 +42,7 @@ export async function CreateProjects(req: Request, res: Response) {
         await prisma.projects.create({
             data: {
                 userId,
-                ...check.data,
-                index: projects.length + 1
+                ...check.data
             }
         })
 
@@ -52,6 +51,7 @@ export async function CreateProjects(req: Request, res: Response) {
         })
         return
     } catch (error: any) {
+        console.log(error)
         res.status(500).json({
             message: error.message
         })
@@ -75,7 +75,7 @@ export async function UpdateProjects(req: Request, res: Response) {
         if (!check.success) {
             res.status(400).json({
                 success: false,
-                message: check.error
+                message: check.error.message
             });
             return
         }

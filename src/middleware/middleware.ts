@@ -4,7 +4,7 @@ export default function middleware(req: Request, res: Response, next: NextFuncti
     try {
         const token = req.headers.authorization;
         if (!token) {
-            res.json({
+            res.status(403).json({
                 success: false,
                 message: "Token is required"
             });

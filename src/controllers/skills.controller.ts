@@ -24,7 +24,7 @@ export async function CreateSkills(req: Request, res: Response) {
         if (!check.success) {
             res.status(400).json({
                 success: false,
-                message: check.error
+                message: check.error.message
             });
             return
         }
@@ -59,7 +59,7 @@ export async function UpdateSkills(req: Request, res: Response) {
         if (!check.success) {
             res.status(400).json({
                 success: false,
-                message: check.error
+                message: check.error.message
             });
             return
         }

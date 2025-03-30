@@ -3,7 +3,7 @@ import middleware from "../middleware/middleware";
 import { CreateSkills, DeleteSkills, GetSkills, UpdateSkills } from "../controllers/skills.controller";
 export const SkillsRouter = Router();
 
-SkillsRouter.get("/", GetSkills)
+SkillsRouter.get("/", middleware, GetSkills)
 SkillsRouter.post("/", middleware, CreateSkills)
 SkillsRouter.put("/", middleware, UpdateSkills)
-SkillsRouter.delete("/", middleware, DeleteSkills)
+SkillsRouter.delete("/:id", middleware, DeleteSkills)

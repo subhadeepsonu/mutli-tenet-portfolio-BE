@@ -4,7 +4,7 @@ import { CreateProjects, DeleteProjects, GetProjects, UpdateProjects } from "../
 
 export const ProjectsRouter = Router();
 
-ProjectsRouter.get("/", GetProjects)
+ProjectsRouter.get("/", middleware, GetProjects)
 ProjectsRouter.post("/", middleware, CreateProjects)
-ProjectsRouter.put("/", middleware, UpdateProjects)
-ProjectsRouter.delete("/", middleware, DeleteProjects)
+ProjectsRouter.put("/:id", middleware, UpdateProjects)
+ProjectsRouter.delete("/:id", middleware, DeleteProjects)

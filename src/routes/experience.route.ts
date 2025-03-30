@@ -3,7 +3,7 @@ import middleware from "../middleware/middleware";
 import { CreateExperience, DeleteExperience, GetExperience, UpdateExperience } from "../controllers/experience.controller";
 export const ExperienceRouter = Router();
 
-ExperienceRouter.get("/", GetExperience)
+ExperienceRouter.get("/", middleware, GetExperience)
 ExperienceRouter.post("/", middleware, CreateExperience)
-ExperienceRouter.put("/", middleware, UpdateExperience)
-ExperienceRouter.delete("/", middleware, DeleteExperience)
+ExperienceRouter.put("/:id", middleware, UpdateExperience)
+ExperienceRouter.delete("/:id", middleware, DeleteExperience)
