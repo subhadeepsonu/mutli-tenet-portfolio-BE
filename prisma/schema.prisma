@@ -38,7 +38,6 @@ model user {
 
 model Projects {
   id String @id @default(cuid())
-  index Int @default(autoincrement())
   title String
   description String
   link String?
@@ -48,12 +47,10 @@ model Projects {
   userId String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  @@unique([index,userId])
 }
 
 model experience {
   id String @id @default(cuid())
-  index Int
   title String
   company String
   location String
@@ -65,7 +62,6 @@ model experience {
   userId String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  @@unique([index,userId])
 }
 
 model skills {

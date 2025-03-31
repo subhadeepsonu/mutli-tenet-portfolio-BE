@@ -45,8 +45,7 @@ export async function CreateExperience(req: Request, res: Response) {
                 description: check.data.description,
                 userId: userId,
                 location: check.data.location,
-                position: check.data.position,
-                index: experience.length + 1
+                position: check.data.position
             }
         })
         res.status(200).json({

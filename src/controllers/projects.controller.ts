@@ -9,7 +9,7 @@ export async function GetProjects(req: Request, res: Response) {
                 userId
             },
             orderBy: {
-                index: "asc"
+                createdAt: "desc"
             }
         });
         res.json({ success: true, data: projects });
@@ -34,11 +34,6 @@ export async function CreateProjects(req: Request, res: Response) {
             });
             return
         }
-        const projects = await prisma.projects.findMany({
-            where: {
-                userId
-            },
-        });
         await prisma.projects.create({
             data: {
                 userId,

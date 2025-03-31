@@ -1,6 +1,6 @@
 import { Response, Request } from "express";
 import prisma from "../db";
-import { createSocialLinksValidator, updateSocialLinksValidator } from "../validators/scoailLinks.validator";
+import { createSocialLinksValidator } from "../validators/scoailLinks.validator";
 
 export async function GetSocialLinks(req: Request, res: Response) {
     try {

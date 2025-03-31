@@ -164,7 +164,14 @@ export async function UpdateProfile(req: Request, res: Response) {
 
         await prisma.user.update({
             where: { id: userId },
-            data: { bio: check.data.bio, domain: check.data.domain }
+            data: {
+                bio: check.data.bio,
+                domain: check.data.domain,
+                github: check.data.github,
+                linkedin: check.data.linkedin,
+                twitter: check.data.twitter,
+                theme: check.data.theme
+            }
         });
 
         res.status(200).json({
