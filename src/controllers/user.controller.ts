@@ -70,7 +70,7 @@ export async function UserRegister(req: Request, res: Response) {
             return
         }
 
-        const checkDomain = await prisma.user.findFirst({ where: { domain: check.data.domain } });
+        const checkDomain = await prisma.user.findFirst({ where: { domain: check.data.domain.toLowerCase() } });
         if (checkDomain) {
             res.status(409).json({
                 success: false,
@@ -85,7 +85,7 @@ export async function UserRegister(req: Request, res: Response) {
             data: {
                 email: check.data.email,
                 password: hashedPassword,
-                domain: check.data.domain
+                domain: check.data.domain.toLowerCase()
             }
         });
 
