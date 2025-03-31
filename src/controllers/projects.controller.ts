@@ -56,7 +56,6 @@ export async function CreateProjects(req: Request, res: Response) {
 
 export async function UpdateProjects(req: Request, res: Response) {
     try {
-
         const body = req.body;
         const id = req.params.id;
         if (!id) {

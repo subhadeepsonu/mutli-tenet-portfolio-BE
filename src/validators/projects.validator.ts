@@ -13,7 +13,6 @@ export const updateProjectValidator = z.object({
     github: z.string().optional(),
     website: z.string().optional(),
     technologies: z.array(z.string().nonempty()),
-    id: z.string().nonempty(),
 })
 
 
