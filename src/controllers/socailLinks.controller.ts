@@ -5,12 +5,11 @@ import { createSocialLinksValidator, updateSocialLinksValidator } from "../valid
 export async function GetSocialLinks(req: Request, res: Response) {
     try {
         const userId = req.userId!;
-        const socialLinks = await prisma.socialLinks.findMany({
+        const socialLinks = await prisma.user.findUnique({
             where: {
-                userId
+                id: userId
             }
-        });
-
+        })
         res.status(200).json({ success: true, data: socialLinks });
         return;
     } catch (error: any) {
@@ -33,37 +32,16 @@ export async function CreateSocialLinks(req: Request, res: Response) {
             return;
         }
 
-        const socialLink = await prisma.socialLinks.findFirst({
+        await prisma.user.update({
             where: {
-                userId
-            }
-        });
-
-        if (socialLink) {
-            await prisma.socialLinks.update({
-                where: {
-                    userId
-                },
-                data: check.data
-            });
-
-            res.status(200).json({
-                success: true,
-                message: "Social link updated"
-            });
-            return;
-        }
-
-        await prisma.socialLinks.create({
-            data: {
-                userId,
-                ...check.data
-            }
+                id: userId
+            },
+            data: check.data
         });
 
         res.status(201).json({
             success: true,
-            message: "Social link created"
+            message: "Social link updated successfully",
         });
         return;
     } catch (error: any) {

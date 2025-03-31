@@ -121,9 +121,7 @@ export async function GetProfile(req: Request, res: Response) {
             include: {
                 experience: true,
                 skills: true,
-                socialLink: true,
                 projects: true,
-                style: true,
             }
         });
 

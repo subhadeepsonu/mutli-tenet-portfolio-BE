@@ -13,16 +13,22 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+enum theme {
+  dark
+  light
+  retro
+}
+
 model user {
   id       String   @id @default(cuid())
   domain   String  @unique
   email    String  @unique
   password String
   bio String?
-  socialLinkId String? @unique
-  socialLink SocialLinks?
-  styleId Int? @unique 
-  style style? @relation(fields: [styleId], references: [id])
+  github String?
+  linkedin String?
+  twitter String?
+  theme theme @default(dark)
   skills skills[]
   projects Projects[]
   experience experience[]
@@ -70,18 +76,4 @@ model skills {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   @@unique([name, userId])
-}
-model style {
-  id Int @id @default(autoincrement())
-  name String @unique
-  user user[]
-}
-
-model SocialLinks {
-  id        String  @id @default(cuid())
-  github    String?
-  linkedin  String?
-  twitter   String?
-  userId  String @unique
-  user user @relation(fields: [userId], references: [id])
 }
