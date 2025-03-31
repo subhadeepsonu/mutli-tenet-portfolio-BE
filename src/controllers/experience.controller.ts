@@ -30,11 +30,6 @@ export async function CreateExperience(req: Request, res: Response) {
             });
             return
         }
-        const experience = await prisma.experience.findMany({
-            where: {
-                userId
-            },
-        });
 
         await prisma.experience.create({
             data: {

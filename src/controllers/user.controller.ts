@@ -50,6 +50,30 @@ export async function UserLogin(req: Request, res: Response) {
     }
 }
 
+export async function Me(req: Request, res: Response) {
+    try {
+        const userId = req.userId
+        const me = await prisma.user.findUnique({
+            where: {
+                id: userId
+            }
+        })
+        res.status(200).json({
+            success: true,
+            message: "your user",
+            data: me
+        });
+        return
+
+    } catch (error: any) {
+        res.status(500).json({
+            success: false,
+            message: error.message
+        });
+        return
+    }
+}
+
 export async function UserRegister(req: Request, res: Response) {
     try {
         const body = req.body;
