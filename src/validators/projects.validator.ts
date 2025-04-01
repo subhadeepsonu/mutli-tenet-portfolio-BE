@@ -12,7 +12,7 @@ export const updateProjectValidator = z.object({
     description: z.string().nonempty(),
     github: z.string().optional(),
     website: z.string().optional(),
-    technologies: z.array(z.string().nonempty()),
+    technologies: z.array(z.string().nonempty())
 })
 
 
