@@ -3,6 +3,7 @@ import { userLoginValidator, userRegisterValidator, userUpdateValidator } from '
 import prisma from "../db"
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
+import { sendMail } from '../utils/mail';
 
 export async function UserLogin(req: Request, res: Response) {
     try {
@@ -16,7 +17,7 @@ export async function UserLogin(req: Request, res: Response) {
             return
         }
 
-        const user = await prisma.user.findFirst({ where: { email: check.data.email } });
+        const user = await prisma.user.findFirst({ where: { email: check.data.email, verified: true } });
         if (!user) {
             res.status(404).json({
                 success: false,
@@ -47,6 +48,52 @@ export async function UserLogin(req: Request, res: Response) {
             message: error.message
         });
         return
+    }
+}
+export async function Veriify(req: Request, res: Response) {
+    try {
+        const token = req.query.token;
+        if (!token) {
+            res.status(400).json({
+                success: false,
+                message: "Token is required"
+            });
+            return
+        }
+        const decoded: any = jwt.verify(token.toString(), process.env.JWT_SECRET_MAIL!);
+        const userId = decoded.id;
+        const user = await prisma.user.findUnique({ where: { id: userId } });
+        if (!user) {
+            res.status(404).json({
+                success: false,
+                message: "User not found"
+            });
+            return
+        }
+        if (user.verified) {
+            res.status(409).json({
+                success: false,
+                message: "User already verified"
+            });
+            return
+        }
+        await prisma.user.update({
+            where: { id: userId },
+            data: { verified: true }
+        });
+        res.status(200).json({
+            success: true,
+            message: "User verified successfully"
+        });
+        return
+
+    } catch (error: any) {
+        res.status(500).json({
+            success: false,
+            message: error.message
+        });
+        return
+
     }
 }
 
@@ -85,7 +132,7 @@ export async function UserRegister(req: Request, res: Response) {
             });
             return
         }
-        const checkUser = await prisma.user.findFirst({ where: { email: check.data.email } });
+        const checkUser = await prisma.user.findFirst({ where: { email: check.data.email, verified: true } });
         if (checkUser) {
             res.status(409).json({
                 success: false,
@@ -105,19 +152,29 @@ export async function UserRegister(req: Request, res: Response) {
 
         const salt = await bcrypt.genSalt(10);
         const hashedPassword = await bcrypt.hash(check.data.password, salt);
-        const user = await prisma.user.create({
-            data: {
-                email: check.data.email,
-                password: hashedPassword,
-                domain: check.data.domain.toLowerCase()
-            }
-        });
+        const check2 = await prisma.user.findFirst({ where: { email: check.data.email } });
+        let user
+        if (check2) {
+            user = await prisma.user.update({
+                where: { email: check.data.email },
+                data: { password: hashedPassword, domain: check.data.domain.toLowerCase() }
+            });
+        }
+        else {
+            user = await prisma.user.create({
+                data: {
+                    email: check.data.email,
+                    password: hashedPassword,
+                    domain: check.data.domain.toLowerCase()
+                }
+            });
 
-        const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET!);
+        }
+        const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET_MAIL!);
+        await sendMail(user.email, "Verify your email", token);
         res.status(201).json({
             success: true,
-            message: "User registered successfully",
-            data: token
+            message: "verification mail sent",
         });
         return
     } catch (error: any) {
