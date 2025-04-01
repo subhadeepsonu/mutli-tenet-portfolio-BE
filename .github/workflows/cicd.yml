@@ -41,6 +41,9 @@ jobs:
             sudo docker rm portfolio || true
             sudo docker run -d -p 3001:3000 \
               --name portfolio \
-              -e DATABASE_URL="${{ secrets.DATABASE_URL }}" \
-              -e JWT_SECRET="${{ secrets.JWT_SECRET }}" \
+              -e DATABASE_URL="${DATABASE_URL}" \
+              -e JWT_SECRET="${JWT_SECRET}" \
+              -e JWT_SECRET_MAIL="${JWT_SECRET_MAIL}" \
+              -e EMAIL_USER="${EMAIL_USER}" \
+              -e EMAIL_PASS="${EMAIL_PASS}" \
               subhadeepthandaka/portfolio-multi-tenet:latest
