@@ -17,7 +17,7 @@ export async function sendMail(to: string, subject: string, token: string) {
             html: `
   <h1>Welcome to Our Platform</h1>
   <p>Thank you for signing up! 🎉</p>
-  <a href="https://portfolio.subhadeep.xyz/user/verify?token=${token}" style="display: inline-block; padding: 10px 20px; color: white; background-color: #007BFF; text-decoration: none; border-radius: 5px;">Verify Email</a>
+  <a href="https://portfolio.subhadeep.xyz/api/v1/user/verify?token=${token}" style="display: inline-block; padding: 10px 20px; color: white; background-color: #007BFF; text-decoration: none; border-radius: 5px;">Verify Email</a>
 `,
         });
 
