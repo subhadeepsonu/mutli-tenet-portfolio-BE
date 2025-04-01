@@ -44,6 +44,5 @@ jobs:
               -e DATABASE_URL="${{secrets.DATABASE_URL}}" \
               -e JWT_SECRET="${{secrets.JWT_SECRET}}" \
               -e JWT_SECRET_MAIL="${{secrets.JWT_SECRET_MAIL}}" \
-              -e EMAIL_USER="${{secrets.EMAIL_USER}}" \
-              -e EMAIL_PASS="${{secrets.EMAIL_PASS}}" \
+              -e RESEND_API_KEY="${{secrets.RESEND_API_KEY}}" \
               subhadeepthandaka/portfolio-multi-tenet:latest

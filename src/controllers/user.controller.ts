@@ -3,7 +3,7 @@ import { userLoginValidator, userRegisterValidator, userUpdateValidator } from '
 import prisma from "../db"
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
-import { sendMail } from '../utils/mail';
+import { Mail } from '../utils/mail';
 
 export async function UserLogin(req: Request, res: Response) {
     try {
@@ -171,7 +171,7 @@ export async function UserRegister(req: Request, res: Response) {
 
         }
         const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET_MAIL!);
-        await sendMail(user.email, "Verify your email", token);
+        await Mail(user.email, "Verify your email", token);
         res.status(201).json({
             success: true,
             message: "verification mail sent",
