@@ -46,3 +46,6 @@ jobs:
               -e JWT_SECRET_MAIL="${{secrets.JWT_SECRET_MAIL}}" \
               -e RESEND_API_KEY="${{secrets.RESEND_API_KEY}}" \
               subhadeepthandaka/portfolio-multi-tenet:latest
+
+            echo "Running Prisma migrations..."
+            sudo docker exec portfolio npx prisma migrate deploy
